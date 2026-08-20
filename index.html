@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiza Rizvi — Data Scientist</title>
+<meta name="description" content="Fiza Rizvi — data scientist working on causal inference, distributed ML, and applied machine learning.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080A0F;
+    --panel:#111726;
+    --ink:#E9ECF3;
+    --muted:#8A93A6;
+    --faint:#565F73;
+    --line:#1E2536;
+    --grid:#141B2A;
+    --accent:#4C7BFF;
+    --accent-deep:#6E96FF;
+    --accent-tint:rgba(76,123,255,.14);
+    --display:'Fraunces',Georgia,serif;
+    --body:'Inter',system-ui,sans-serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:var(--body);line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+  }
+  /* techy blueprint grid backdrop */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(var(--grid) 1px,transparent 1px),
+      linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:52px 52px;
+    -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 35%,transparent 78%);
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 35%,transparent 78%);
+  }
+  body>*{position:relative;z-index:1}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#fff}
+  .wrap{max-width:920px;margin:0 auto;padding:0 26px}
+
+  /* NAV / TABS */
+  header.top{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(8,10,15,.82);backdrop-filter:blur(10px);z-index:20}
+  header.top::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent) 0%,var(--accent) 22%,transparent 22%)}
+  .top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;flex-wrap:wrap}
+  .brand{font-family:var(--mono);font-weight:500;font-size:.95rem;letter-spacing:.01em;display:flex;align-items:center;gap:8px}
+  .brand::before{content:"◆";color:var(--accent);font-size:.7rem}
+  .brand span{color:var(--accent)}
+  .tabs{display:flex;gap:2px}
+  .tab{
+    font-family:var(--mono);font-size:.8rem;color:var(--muted);
+    background:none;border:none;cursor:pointer;padding:8px 14px;border-radius:8px;
+    transition:all .16s;letter-spacing:.02em;
+  }
+  .tab:hover{color:var(--ink);background:var(--panel)}
+  .tab.active{color:var(--accent-deep);background:var(--accent-tint)}
+  .tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  main{padding:56px 0 90px}
+  .panel{display:none;animation:fade .32s ease}
+  .panel.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:18px;display:inline-flex;align-items:center;gap:8px}
+  .eyebrow::before{content:"[";color:var(--faint)}
+  .eyebrow::after{content:"]";color:var(--faint)}
+  .sec-head{font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:48px 0 26px;display:flex;align-items:center;gap:12px}
+  .sec-head::before{content:"//";color:var(--accent);font-weight:500}
+  .sec-head::after{content:"";flex:1;height:1px;background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 12px)}
+
+  /* ABOUT / LANDING */
+  .hero{display:grid;grid-template-columns:1fr 260px;gap:44px;align-items:center}
+  .hero-photo{width:100%;border-radius:14px;border:1px solid var(--line);display:block;position:relative}
+  .hero-photo-frame{position:relative}
+  .hero-photo-frame::before,.hero-photo-frame::after{content:"";position:absolute;width:16px;height:16px;border-color:var(--accent);z-index:2}
+  .hero-photo-frame::before{top:-4px;left:-4px;border-top:2px solid;border-left:2px solid}
+  .hero-photo-frame::after{bottom:-4px;right:-4px;border-bottom:2px solid;border-right:2px solid}
+
+  /* interactive particle network */
+  #about{position:relative}
+  #about>*{position:relative;z-index:1}
+  #hero-net{position:absolute!important;top:-72px;left:50%;transform:translateX(-50%);width:100vw;height:620px;z-index:0!important;pointer-events:none;display:block;
+    -webkit-mask-image:linear-gradient(#000 48%,transparent 92%);mask-image:linear-gradient(#000 48%,transparent 92%)}
+  h1{font-family:var(--display);font-weight:400;font-size:clamp(2rem,4.6vw,3rem);line-height:1.14;letter-spacing:-.015em;margin-bottom:20px}
+  h1 em{font-style:italic;color:var(--accent)}
+  .lead{color:var(--muted);font-size:1.05rem;max-width:56ch}
+  @media (max-width:720px){.hero{grid-template-columns:1fr;gap:26px}.hero-photo{max-width:240px;order:-1}}
+
+  .about-body{max-width:64ch;margin-top:6px}
+  .about-body p{color:var(--muted);margin-bottom:16px}
+  .about-body strong{color:var(--ink);font-weight:600}
+  .edu{font-family:var(--mono);font-size:.82rem;color:var(--faint);line-height:1.9;margin-top:6px}
+  .edu b{color:var(--ink);font-weight:500}
+
+  .interests{display:flex;flex-wrap:wrap;gap:10px}
+  .interests span{font-size:.9rem;color:var(--ink);background:var(--panel);border:1px solid var(--line);padding:8px 14px;border-radius:20px}
+
+  .stackrow{display:grid;grid-template-columns:140px 1fr;gap:26px;padding:18px 0;border-top:1px solid var(--line)}
+  .stackrow:first-child{border-top:none}
+  .stackrow .label{font-family:var(--mono);font-size:.76rem;color:var(--muted);padding-top:3px}
+  .stackrow .items{display:flex;flex-wrap:wrap;gap:8px}
+  .stackrow .items span{font-family:var(--mono);font-size:.8rem;color:var(--ink);border:1px solid var(--line);padding:6px 11px;border-radius:6px;transition:all .16s}
+  .stackrow .items span:hover{border-color:var(--accent);color:var(--accent-deep)}
+  @media (max-width:560px){.stackrow{grid-template-columns:1fr;gap:10px}}
+
+  .contact-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
+  .contact-grid a{font-family:var(--mono);font-size:.85rem;border:1px solid var(--line);border-radius:10px;padding:14px 18px;display:flex;flex-direction:column;gap:3px;min-width:190px;transition:all .16s}
+  .contact-grid a:hover{border-color:var(--accent);background:var(--accent-tint)}
+  .contact-grid .k{color:var(--accent);font-size:.68rem;text-transform:uppercase;letter-spacing:.08em}
+
+  /* PROJECTS */
+  .project{display:grid;grid-template-columns:150px 1fr;gap:28px;padding:30px 0;border-top:1px solid var(--line)}
+  .project:first-of-type{border-top:none;padding-top:0}
+  .method{font-family:var(--mono);font-size:.73rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);padding-top:5px}
+  .method .domain{display:block;color:var(--faint);margin-top:5px}
+  .project h3{font-family:var(--display);font-weight:500;font-size:1.4rem;line-height:1.22;margin-bottom:10px}
+  .project p{color:var(--muted);font-size:.95rem;max-width:60ch;margin-bottom:16px}
+  .stack{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+  .stack span{font-family:var(--mono);font-size:.73rem;color:var(--ink);background:var(--panel);border:1px solid var(--line);padding:5px 10px;border-radius:6px}
+  .repo-link{font-family:var(--mono);font-size:.82rem;color:var(--accent);display:inline-flex;gap:7px;align-items:center;transition:gap .16s}
+  .repo-link:hover{gap:12px}
+  @media (max-width:560px){.project{grid-template-columns:1fr;gap:12px}.method{padding-top:0}}
+
+  /* EXPERIENCE — clickable timeline */
+  .timeline{position:relative;margin:8px 0 0 8px;padding-left:30px}
+  .timeline::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:2px;background:var(--line)}
+  .exp-item{border-bottom:1px solid var(--line)}
+  .exp-item:last-child{border-bottom:none}
+  .exp-item summary{list-style:none;cursor:pointer;display:flex;align-items:flex-start;gap:16px;padding:22px 0;position:relative}
+  .exp-item summary::-webkit-details-marker{display:none}
+  .exp-item .dot{position:absolute;left:-33px;top:26px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--accent);transition:background .16s}
+  .exp-item[open] .dot{background:var(--accent)}
+  .exp-head{flex:1}
+  .exp-item .role{font-family:var(--display);font-size:1.28rem;font-weight:500;line-height:1.25}
+  .exp-item .org{font-family:var(--mono);font-size:.8rem;color:var(--accent);margin-top:5px;display:block}
+  .exp-item .chev{font-family:var(--mono);color:var(--faint);font-size:1.15rem;line-height:1;transition:transform .2s;padding-top:4px}
+  .exp-item[open] .chev{transform:rotate(45deg)}
+  .exp-item .desc{color:var(--muted);font-size:.93rem;max-width:58ch;padding:0 0 24px 0;margin-top:-6px}
+  @media (max-width:560px){.timeline{padding-left:26px}.exp-item .dot{left:-29px}}
+
+  footer{border-top:1px solid var(--line);padding:28px 0 50px;font-family:var(--mono);font-size:.76rem;color:var(--faint)}
+  /* WRITING */
+  /* WRITING — newspaper */
+  .paper{background:#F4F1E9;color:#1A1815;border-radius:5px;padding:36px 40px 40px;
+    box-shadow:0 24px 70px rgba(0,0,0,.5);font-family:Georgia,'Times New Roman',serif;max-width:880px}
+  .masthead{text-align:center;border-bottom:3px double #1A1815;padding-bottom:14px;margin-bottom:6px}
+  .mast-rule{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#5A544A;margin-bottom:8px}
+  .masthead h2{font-family:'Playfair Display',Georgia,serif;font-weight:900;font-size:clamp(2.4rem,6vw,3.9rem);line-height:1;letter-spacing:-.01em;color:#100E0B}
+  .dateline{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid #1A1815;margin-top:12px;padding-top:8px;
+    font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:#5A544A}
+  .kicker{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:#8A2018;margin-bottom:8px;font-weight:500}
+  .paper a{color:inherit}
+  .lead-story{display:grid;grid-template-columns:1.15fr 1fr;gap:30px;align-items:start;padding:26px 0 28px;border-bottom:2px solid #1A1815;margin-bottom:26px}
+  .lead-story h3{font-family:'Playfair Display',Georgia,serif;font-weight:800;font-size:1.7rem;line-height:1.15;margin-bottom:12px;color:#100E0B}
+  .lead-story .dek{font-size:1rem;line-height:1.6;color:#3A342C;margin-bottom:14px}
+  .readmore{font-family:var(--mono);font-size:.78rem;color:#8A2018;letter-spacing:.03em}
+  .ls-figure{margin:0}
+  .ls-figure img{width:100%;display:block;border:1px solid #1A1815;filter:grayscale(1) contrast(1.04);transition:filter .3s}
+  .lead-story:hover .ls-figure img{filter:none}
+  .lead-story:hover h3{text-decoration:underline}
+  .news-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px 32px}
+  .news-item{display:block;border-top:1px solid #C4BCAC;padding-top:18px}
+  .news-item figure{margin:0 0 12px}
+  .news-item img{width:100%;height:170px;object-fit:cover;display:block;border:1px solid #1A1815;filter:grayscale(1) contrast(1.04);transition:filter .3s}
+  .news-item:hover img{filter:none}
+  .news-item figcaption{font-size:.64rem;font-style:italic;color:#8A8577;margin-top:4px}
+  .news-item h4{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:1.16rem;line-height:1.2;margin-bottom:8px;color:#100E0B}
+  .news-item:hover h4{text-decoration:underline}
+  .news-item .dek{font-size:.9rem;line-height:1.55;color:#3A342C}
+  @media (max-width:680px){
+    .paper{padding:26px 22px 30px}
+    .lead-story{grid-template-columns:1fr;gap:18px}.lead-story .ls-figure{order:-1}
+    .news-grid{grid-template-columns:1fr;gap:24px}.news-item img{height:200px}
+  }
+
+  /* EDUCATION */
+  .edu-item{border-top:1px solid var(--line);padding:28px 0}
+  .edu-item:first-of-type{border-top:none;padding-top:0}
+  .edu-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+  .edu-school{font-family:var(--display);font-size:1.35rem;font-weight:500;line-height:1.25}
+  .edu-when{font-family:var(--mono);font-size:.8rem;color:var(--faint);white-space:nowrap}
+  .edu-degree{color:var(--ink);font-size:1rem;margin-bottom:6px}
+  .edu-honor{color:var(--accent-deep);font-weight:600}
+  .edu-honors{color:var(--muted);font-size:.9rem;margin-bottom:14px}
+  .edu-courses{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .edu-courses span{font-family:var(--mono);font-size:.76rem;color:var(--muted);border:1px solid var(--line);padding:5px 10px;border-radius:6px}
+  a.edu-link{display:block;transition:padding-left .18s}
+  a.edu-link:hover{padding-left:8px}
+  .edu-go{font-family:var(--mono);font-size:.8rem;color:var(--accent);margin-left:4px;white-space:nowrap}
+
+  /* PROJECTS — interactive terminal */
+  .terminal{background:#0A0E18;border:1px solid var(--line);border-radius:11px;overflow:hidden;max-width:840px;
+    box-shadow:0 24px 70px rgba(0,0,0,.45),inset 0 0 80px rgba(76,123,255,.03);font-family:var(--mono)}
+  .term-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#0E1424;border-bottom:1px solid var(--line)}
+  .term-dot{width:11px;height:11px;border-radius:50%}
+  .term-dot.r{background:#ff5f57}.term-dot.y{background:#febc2e}.term-dot.g{background:#28c840}
+  .term-title{margin-left:10px;font-size:.78rem;color:var(--muted);letter-spacing:.02em}
+  .term-body{padding:22px 20px 24px;font-size:.9rem;color:#C6CEDE;line-height:1.85;position:relative}
+  .term-body::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(0deg,rgba(120,150,255,.025) 0 1px,transparent 1px 3px)}
+  .term-cmdline{margin-bottom:4px}
+  .term-prompt{color:var(--accent);font-weight:500}
+  .term-hint{color:var(--faint);font-size:.8rem;margin:2px 0 16px}
+  .term-line{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:none;cursor:pointer;
+    color:#C6CEDE;font-family:inherit;font-size:.92rem;padding:8px 10px;border-radius:6px;transition:background .15s}
+  .term-line:hover,.term-line[aria-expanded="true"]{background:rgba(76,123,255,.1)}
+  .term-line .arrow{color:var(--accent)}
+  .term-line .fname{color:#EAEEF6}
+  .term-line[aria-expanded="true"] .arrow{color:var(--accent-deep)}
+  .term-line .tag{margin-left:auto;color:var(--faint);font-size:.78rem;white-space:nowrap}
+  .term-detail{display:none;padding:8px 12px 16px 30px;margin:0 0 8px 14px;border-left:1px solid var(--line)}
+  .term-detail.open{display:block;animation:termopen .28s ease}
+  @keyframes termopen{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .term-detail p{color:var(--muted);font-size:.86rem;line-height:1.7;max-width:62ch;margin-bottom:12px}
+  .term-detail .st{color:var(--accent-deep);font-size:.8rem;margin-bottom:12px;word-spacing:.05em}
+  .term-detail a{color:var(--accent);font-size:.86rem}
+  .term-detail a:hover{text-decoration:underline}
+  .term-cursor{display:inline-block;width:9px;height:1.02em;background:var(--accent);vertical-align:text-bottom;animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  @media (max-width:560px){.term-line{font-size:.82rem;gap:8px}.term-line .tag{font-size:.7rem}}
+
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">Fiza Rizvi<span>.</span></div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" data-tab="about" aria-selected="true">About</button>
+      <button class="tab" role="tab" data-tab="projects" aria-selected="false">Projects</button>
+      <button class="tab" role="tab" data-tab="writing" aria-selected="false">Writing</button>
+      <button class="tab" role="tab" data-tab="education" aria-selected="false">Education</button>
+      <button class="tab" role="tab" data-tab="experience" aria-selected="false">Experience</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <!-- ABOUT (landing) -->
+    <section class="panel show" id="about">
+      <canvas id="hero-net"></canvas>
+      <div class="hero">
+        <div>
+          <div class="eyebrow">Data Scientist · Applied ML</div>
+          <h1>I like <em>decomposing real-world problems</em> through data and through writing, and often the two merge.</h1>
+          <p class="lead">Applied data scientist working across distributed machine learning, causal inference, and NLP. I take a complex problem apart to find the assumption underneath it, then test whether it holds, in the data and in the argument.</p>
+        </div>
+        <div class="hero-photo-frame"><img class="hero-photo" src="profile.jpg" alt="Fiza Rizvi" onerror="this.parentElement.style.display='none'"></div>
+      </div>
+
+      <div class="about-body">
+        <div class="sec-head">About me</div>
+        <p>I'm drawn to problems where careful measurement changes what people decide. Whether I'm building a model or writing an argument, the move is the same: take a claim everyone accepts, pull apart the assumption underneath it, and test whether it survives. In a pipeline that means <strong>leakage-safe splits, honest metrics under class imbalance, and robustness checks</strong>, making sure a result reflects real signal rather than the modelling choice.</p>
+        <p>My background is as much in <strong>writing as in modelling</strong>, and the two often merge. I've published analysis on AI-enabled targeting and international security, work that lives exactly where data and argument meet. That same instinct runs through everything I build, whether the subject is conflict, financial markets, or aviation. I completed a BA in Computer Science at Columbia and an MSc in Applied Social Data Science at the LSE, and I'm most drawn to the intersection of computational methods, AI governance, and security policy.</p>
+      </div>
+
+      <div class="sec-head">Interests</div>
+      <div class="interests">
+        <span>Data Science</span><span>ML Pipelines</span><span>AI governance</span>
+        <span>Causal inference</span><span>Computational social science</span><span>Security &amp; defense policy</span>
+      </div>
+
+      <div class="sec-head">Tech stack</div>
+      <div class="stackrow">
+        <div class="label">Languages</div>
+        <div class="items"><span>Python</span><span>R</span><span>SQL</span></div>
+      </div>
+      <div class="stackrow">
+        <div class="label">ML &amp; Stats</div>
+        <div class="items"><span>Causal inference</span><span>scikit-learn</span><span>Ensembles</span><span>NLP</span><span>PCA · clustering</span><span>Feature engineering</span></div>
+      </div>
+      <div class="stackrow">
+        <div class="label">Distributed</div>
+        <div class="items"><span>Apache Spark</span><span>Spark MLlib</span><span>Google Cloud</span><span>Dataproc</span><span>Parquet</span></div>
+      </div>
+      <div class="stackrow">
+        <div class="label">Data &amp; tools</div>
+        <div class="items"><span>pandas</span><span>NumPy</span><span>Git</span><span>APIs · scraping</span><span>matplotlib · seaborn</span></div>
+      </div>
+
+      <div class="sec-head">Get in touch</div>
+      <div class="contact-grid">
+        <a href="mailto:fiza.rizvi2110@gmail.com"><span class="k">Email</span>fiza.rizvi2110@gmail.com</a>
+        <a href="https://linkedin.com/in/fiza-rizvi" target="_blank" rel="noopener"><span class="k">LinkedIn</span>/in/fiza-rizvi</a>
+        <a href="https://github.com/fizarizvi2110" target="_blank" rel="noopener"><span class="k">GitHub</span>/fizarizvi2110</a>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="panel" id="projects">
+      <div class="eyebrow">Selected work</div>
+      <h1 style="font-size:clamp(1.7rem,3.6vw,2.3rem);margin-bottom:30px">Four projects, one discipline:<br><em>rigorous measurement on imperfect data.</em></h1>
+
+      <div class="terminal">
+        <div class="term-bar">
+          <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+          <span class="term-title">fiza@portfolio: ~/projects</span>
+        </div>
+        <div class="term-body">
+          <div class="term-cmdline"><span class="term-prompt">$</span> ls projects/</div>
+          <div class="term-hint">// click a project to open its README</div>
+
+          <button class="term-line" aria-expanded="false" data-t="t-p1">
+            <span class="arrow">&gt;</span><span class="fname">aerial-strikes-iraq/</span><span class="tag">[causal-inference]</span>
+          </button>
+          <div class="term-detail" id="t-p1">
+            <p>MSc dissertation estimating the effect of coalition airstrikes on insurgent violence, 2016–2020. A province-month panel links strike data to attack outcomes from independent sources, with a 12-month distributed-lag fixed-effects model separating retaliation (strikes raise attack frequency) from capacity degradation (strikes cut attack success rate).</p>
+            <div class="st">stack: python · pandas · linearmodels · panel-data · twfe</div>
+            <a href="https://github.com/fizarizvi2110/conflict-dissertation" target="_blank" rel="noopener">&rarr; view repository</a>
+          </div>
+
+          <button class="term-line" aria-expanded="false" data-t="t-p2">
+            <span class="arrow">&gt;</span><span class="fname">ftse-sector-resilience/</span><span class="tag">[unsupervised]</span>
+          </button>
+          <div class="term-detail" id="t-p2">
+            <p>An event-study and clustering analysis of how FTSE 100 sectors weathered the Brexit referendum versus COVID-19. Live data collection from public APIs feeds volatility analysis, PCA, and K-means to build a composite resilience score, showing resilience is crisis-dependent, not a fixed property of a sector.</p>
+            <div class="st">stack: python · scikit-learn · pca · k-means · yfinance · beautifulsoup</div>
+            <a href="https://github.com/fizarizvi2110/ftse-resilience" target="_blank" rel="noopener">&rarr; view repository</a>
+          </div>
+
+          <button class="term-line" aria-expanded="false" data-t="t-p3">
+            <span class="arrow">&gt;</span><span class="fname">financial-sentiment/</span><span class="tag">[nlp-at-scale]</span>
+          </button>
+          <div class="term-detail" id="t-p3">
+            <p>A distributed pipeline testing whether social-media sentiment predicts next-day stock movements, built on ~3.7M tweets with PySpark on Google Cloud Dataproc. A leakage-safe temporal split makes the honest chance-level result trustworthy.</p>
+            <div class="st">stack: pyspark · spark-mllib · gcp-dataproc · parquet · yfinance</div>
+            <a href="https://github.com/fizarizvi2110/NASDAQ-financial-sentiment" target="_blank" rel="noopener">&rarr; view repository</a>
+          </div>
+
+          <button class="term-line" aria-expanded="false" data-t="t-p4">
+            <span class="arrow">&gt;</span><span class="fname">flight-delay-gbt/</span><span class="tag">[distributed-ml]</span>
+          </button>
+          <div class="term-detail" id="t-p4">
+            <p>A two-stage Spark MLlib framework predicting whether a flight is delayed and how severely, benchmarked across three US hubs on 3.4M records. My contribution to this group project: the Gradient Boosted Trees model (highest AUC and precision at Stage 1) and the scalability experiment across incremental data partitions.</p>
+            <div class="st">stack: pyspark · spark-mllib · gbt · gcp-dataproc</div>
+            <a href="https://github.com/fizarizvi2110/flight-delay-prediction" target="_blank" rel="noopener">&rarr; view repository</a>
+          </div>
+
+          <div class="term-cmdline"><span class="term-prompt">$</span> <span class="term-cursor"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WRITING / PUBLICATIONS -->
+    <section class="panel" id="writing">
+      <div class="eyebrow">Published analysis</div>
+      <h1 style="font-size:clamp(1.7rem,3.6vw,2.3rem);margin-bottom:24px">Writing</h1>
+
+      <div class="paper">
+        <div class="masthead">
+          <div class="mast-rule">Est. 2023 · Politics · Security · Artificial Intelligence</div>
+          <h2>My Publications</h2>
+          <div class="dateline">
+            <span>Columbia Political Review &amp; LSE Think Tank</span>
+            <span>Selected Writing</span>
+            <span>Vol. I</span>
+          </div>
+        </div>
+
+        <a class="lead-story" href="https://www.thinktanklsesu.com/post/weapons-of-moral-dilution-how-ai-is-reprogramming-warfare-surveillance-and-repression-in-the-midd" target="_blank" rel="noopener">
+          <div class="ls-text">
+            <div class="kicker">LSE Think Tank · Nov 2025</div>
+            <h3>Weapons of Moral Dilution: How AI Is Reprogramming Warfare, Surveillance, and Repression in the Middle East</h3>
+            <p class="dek">A sourced analysis of AI-enabled targeting, surveillance, and the erosion of meaningful human oversight across Saudi Arabia, Iran, and Israel, and why existing arms-control frameworks can't govern it.</p>
+            <span class="readmore">Read the full piece →</span>
+          </div>
+          <figure class="ls-figure">
+            <img src="images/lse-ai.jpg" alt="AI and warfare in the Middle East" loading="lazy" onerror="this.closest('figure').style.display='none'">
+          </figure>
+        </a>
+
+        <div class="news-grid">
+          <a class="news-item" href="https://www.cpreview.org/articles/2023/10/russian-roulette-prigozhins-fatal-victory?rq=Rizvi" target="_blank" rel="noopener">
+            <figure><img src="images/prigozhin.jpg" alt="Prigozhin and the Wagner Group" loading="lazy" onerror="this.closest('figure').style.display='none'"><figcaption>Photo: Gov. of the Russian Federation / Wikimedia</figcaption></figure>
+            <div class="kicker">Columbia Political Review · Oct 2023</div>
+            <h4>Russian Roulette: Prigozhin's Fatal Victory</h4>
+            <p class="dek">On the Wagner Group mutiny and what Prigozhin's gambit exposed about the fault lines inside Putin's Kremlin.</p>
+          </a>
+
+          <a class="news-item" href="https://www.cpreview.org/articles/2023/5/beyond-charisma-kemal-kldarolus-temperate-resistance-in-turkeys-presidential-race?rq=Rizvi" target="_blank" rel="noopener">
+            <figure><img src="images/kilicdaroglu.jpg" alt="Kemal Kılıçdaroğlu" loading="lazy" onerror="this.closest('figure').style.display='none'"><figcaption>Photo: Cumhuriyet Halk Partisi / Wikimedia</figcaption></figure>
+            <div class="kicker">Columbia Political Review · May 2023</div>
+            <h4>Beyond Charisma: Kılıçdaroğlu's Temperate Resistance in Turkey's Presidential Race</h4>
+            <p class="dek">On the challenger's understated strategy against Erdoğan and what it revealed about opposition politics in Turkey.</p>
+          </a>
+
+          <a class="news-item" href="https://www.cpreview.org/articles/2023/4/balancing-the-budget-macrons-debt-to-the-french-working-class?rq=Rizvi" target="_blank" rel="noopener">
+            <figure><img src="images/macron.jpg" alt="Emmanuel Macron" loading="lazy" onerror="this.closest('figure').style.display='none'"><figcaption>Photo: Faces Of The World / Flickr</figcaption></figure>
+            <div class="kicker">Columbia Political Review · Apr 2023</div>
+            <h4>Balancing the Budget: Macron's Debt to the French Working Class</h4>
+            <p class="dek">On the politics of French pension reform and the cost Macron's fiscal choices imposed on working-class voters.</p>
+          </a>
+
+          <a class="news-item" href="https://www.cpreview.org/articles/2023/3/imran-khans-revolution-pakistans-brightest-hope-or-bleakest-danger?rq=Rizvi" target="_blank" rel="noopener">
+            <figure><img src="images/imran-khan.jpg" alt="Imran Khan" loading="lazy" onerror="this.closest('figure').style.display='none'"><figcaption>Photo: Imran Ghazali / Wikimedia</figcaption></figure>
+            <div class="kicker">Columbia Political Review · Mar 2023</div>
+            <h4>Imran Khan's Revolution: Pakistan's Brightest Hope or Bleakest Danger?</h4>
+            <p class="dek">On Khan's populist movement and the tension between democratic promise and institutional risk in Pakistan.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section class="panel" id="education">
+      <div class="eyebrow">Academic background</div>
+      <h1 style="font-size:clamp(1.7rem,3.6vw,2.3rem);margin-bottom:36px">Education</h1>
+
+      <div class="edu-item">
+        <div class="edu-top">
+          <div class="edu-school">London School of Economics</div>
+          <div class="edu-when">Sep 2026</div>
+        </div>
+        <div class="edu-degree">MSc Applied Social Data Science · <span class="edu-honor">Distinction</span></div>
+        <div class="edu-courses">
+          <span>Applied Machine Learning</span><span>Computational Text Analysis · LLMs</span><span>Distributed Computing</span><span>Causal Inference</span><span>Research Methods</span>
+        </div>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-top">
+          <div class="edu-school">Columbia University</div>
+          <div class="edu-when">May 2024</div>
+        </div>
+        <div class="edu-degree">BA Computer Science · <span class="edu-honor">GPA 3.8 / 4.0</span></div>
+        <div class="edu-honors">Dean's List · Global Learning Scholarship (intensive French, Paris)</div>
+        <div class="edu-courses">
+          <span>Data Structures</span><span>Advanced Programming (C)</span><span>Relational Databases</span><span>Probability Theory</span><span>Linear Algebra</span><span>Calculus I–IV</span>
+        </div>
+      </div>
+
+      <a class="edu-item edu-link" href="https://www.sipri.org/news/2026/sipri-hosts-course-wmd-non-proliferation-and-technological-convergence" target="_blank" rel="noopener">
+        <div class="edu-top">
+          <div class="edu-school">SIPRI · Stockholm International Peace Research Institute</div>
+          <div class="edu-when">2026</div>
+        </div>
+        <div class="edu-degree">WMD Non-Proliferation and Technological Convergence · <span class="edu-honor">Selected participant</span></div>
+        <div class="edu-honors">A selective intensive course on WMD non-proliferation and disarmament in an era of rapid technological change. Covered emerging AI threats, AI-enhanced drones in chemical-weapons verification, verification regimes across nuclear, chemical, and biological weapons, non-proliferation frameworks and how technological advances are reshaping them, and export/import controls as non-proliferation tools. <span class="edu-go">View course →</span></div>
+      </a>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="panel" id="experience">
+      <div class="eyebrow">Where I've worked</div>
+      <h1 style="font-size:clamp(1.7rem,3.6vw,2.3rem);margin-bottom:20px">Experience</h1>
+      <p class="lead" style="font-size:.9rem;color:var(--faint);margin-bottom:30px">Click a role to expand.</p>
+
+      <div class="timeline">
+        <details class="exp-item" open>
+          <summary>
+            <span class="dot"></span>
+            <span class="exp-head">
+              <span class="role">AI / Marketing Advisor</span>
+              <span class="org">Gibson Kerr · Jan 2026 – Present</span>
+            </span>
+            <span class="chev">+</span>
+          </summary>
+          <div class="desc">Advising a professional-services firm on adopting AI across its workflows, from tool evaluation and prompt engineering to building client-facing automation.</div>
+        </details>
+
+        <details class="exp-item">
+          <summary>
+            <span class="dot"></span>
+            <span class="exp-head">
+              <span class="role">Research Associate</span>
+              <span class="org">Project Applecart LLC · Jan 2024 – Sep 2025</span>
+            </span>
+            <span class="chev">+</span>
+          </summary>
+          <div class="desc">Mapped political and corporate influence networks across hundreds of public sources, identifying high-value targets and delivering actionable intelligence under tight turnarounds for live campaigns in a data-to-decision pipeline.</div>
+        </details>
+
+        <details class="exp-item">
+          <summary>
+            <span class="dot"></span>
+            <span class="exp-head">
+              <span class="role">Database Assistant</span>
+              <span class="org">Columbia University · Office of Alumni Development · Apr 2023 – Jan 2024</span>
+            </span>
+            <span class="chev">+</span>
+          </summary>
+          <div class="desc">Maintained AWS/SQL ETL pipelines supporting outreach to 350,000+ constituents, with data-quality scripts that improved report accuracy.</div>
+        </details>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 Fiza Rizvi</div>
+</footer>
+
+<script>
+  /* Interactive particle network in the hero */
+  (function(){
+    const canvas = document.getElementById('hero-net');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const C = '76,123,255';
+    let W=0,H=0,nodes=[],mouse={x:null,y:null},raf;
+
+    function build(){
+      const dpr = Math.min(window.devicePixelRatio||1,2);
+      W = canvas.offsetWidth; H = canvas.offsetHeight;
+      if(!W||!H) return;
+      canvas.width = W*dpr; canvas.height = H*dpr;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      const count = Math.max(24, Math.min(72, Math.floor(W*H/13000)));
+      nodes = [];
+      for(let i=0;i<count;i++){
+        nodes.push({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.32, vy:(Math.random()-.5)*.32});
+      }
+    }
+
+    function frame(){
+      if(canvas.offsetParent===null){ raf=requestAnimationFrame(frame); return; }
+      if(!W||!H){ build(); }
+      ctx.clearRect(0,0,W,H);
+      for(const n of nodes){
+        if(!reduce){ n.x+=n.vx; n.y+=n.vy; }
+        if(n.x<0||n.x>W) n.vx*=-1;
+        if(n.y<0||n.y>H) n.vy*=-1;
+      }
+      for(let i=0;i<nodes.length;i++){
+        for(let j=i+1;j<nodes.length;j++){
+          const a=nodes[i],b=nodes[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.hypot(dx,dy);
+          if(d<128){
+            ctx.strokeStyle='rgba('+C+','+(0.16*(1-d/128)).toFixed(3)+')';
+            ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+          }
+        }
+      }
+      if(mouse.x!==null){
+        for(const n of nodes){
+          const dx=n.x-mouse.x,dy=n.y-mouse.y,d=Math.hypot(dx,dy);
+          if(d<175){
+            ctx.strokeStyle='rgba('+C+','+(0.4*(1-d/175)).toFixed(3)+')';
+            ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(n.x,n.y); ctx.lineTo(mouse.x,mouse.y); ctx.stroke();
+            if(!reduce){ n.x-=dx*0.006; n.y-=dy*0.006; }
+          }
+        }
+      }
+      for(const n of nodes){
+        ctx.fillStyle='rgba('+C+',0.85)';
+        ctx.beginPath(); ctx.arc(n.x,n.y,1.7,0,Math.PI*2); ctx.fill();
+      }
+      if(!reduce) raf=requestAnimationFrame(frame);
+    }
+
+    window.addEventListener('resize', build);
+    window.addEventListener('mousemove', e=>{
+      const r=canvas.getBoundingClientRect();
+      if(e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom){
+        mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top;
+      } else { mouse.x=null; mouse.y=null; }
+    });
+    build();
+    if(reduce){ frame(); } else { raf=requestAnimationFrame(frame); }
+  })();
+</script>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+    tab.classList.add('active'); tab.setAttribute('aria-selected','true');
+    panels.forEach(p => p.classList.toggle('show', p.id === tab.dataset.tab));
+    window.scrollTo({top:0,behavior:'smooth'});
+  }));
+
+  document.querySelectorAll('.term-line').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const d = document.getElementById(btn.dataset.t);
+      const open = d.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+</script>
+</body>
+</html>
